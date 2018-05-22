@@ -7,41 +7,67 @@
     android:orientation="vertical"
     tools:context="complejos.example.com.arrastarysoltar.MainActivity">
 
-    <TextView
-        android:id="@+id/CuboUno"
+    <ImageButton
+        android:id="@+id/btnRecargar"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_margin="15dp"
-        android:background="#d20000"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="Cubo Uno"
-        android:textColor="@color/icons"
-        android:textSize="18sp" />
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_recargar"
+        />
 
     <TextView
-        android:id="@+id/CuboDos"
+        android:id="@+id/txtContador"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_text"
+        android:textSize="20sp"
         android:layout_margin="15dp"
-        android:background="#46d200"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="Cubo Dos"
-        android:textColor="@color/icons"
-        android:textSize="18sp" />
+        />
 
-    <TextView
-        android:id="@+id/CuboTres"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_margin="15dp"
-        android:background="#008cff"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="8dp"
-        android:text="Cubo Dos"
-        android:textColor="@color/icons"
-        android:textSize="18sp" />
+      >
+
+        <TextView
+            android:id="@+id/CuboUno"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_margin="15dp"
+            android:background="#ffe600"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Cubo Uno"
+            android:textColor="@color/icons"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/CuboDos"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_margin="15dp"
+            android:background="#46d200"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Cubo Dos"
+            android:textColor="@color/icons"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/CuboTres"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_margin="15dp"
+            android:background="#008cff"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Cubo Dos"
+            android:textColor="@color/icons"
+            android:textSize="18sp" />
+
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/contenedorEliminar"
@@ -56,19 +82,19 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:background="#00ffffff"
-            android:src="@drawable/ic_eliminar"
             android:gravity="center"
+            android:src="@drawable/ic_eliminar"
             android:textColor="@color/icons"
             android:textSize="18sp" />
+
         <TextView
             android:id="@+id/TxtEliminar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Eliminar"
-            android:textSize="18sp"
             android:textColor="@color/colorPrimary"
-            />
+            android:textSize="18sp" />
 
     </LinearLayout>
 

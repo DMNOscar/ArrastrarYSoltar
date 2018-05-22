@@ -1,25 +1,40 @@
 package complejos.example.com.arrastarysoltar;
 
 import android.content.ClipData;
+import android.media.MediaRecorder;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.File;
+import java.io.IOException;
+
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
     private TextView cuboUno,cuboDos,cuboTres;
     private ImageView cajaCubos;
     private LinearLayout contenedorEliminar;
+    private ImageButton recargar;
+    private Long tiempo;
+    private boolean estaPresionado=false;
+    private TextView txtContador;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,28 +45,41 @@ public class MainActivity extends AppCompatActivity {
         cuboTres = (TextView) findViewById(R.id.CuboTres);
         cajaCubos = (ImageView) findViewById(R.id.CajaCubos);
         contenedorEliminar = (LinearLayout) findViewById(R.id.contenedorEliminar);
+        txtContador = (TextView) findViewById(R.id.txtContador);
 
-        cuboUno.setOnLongClickListener(longClickListener);
-        cuboDos.setOnLongClickListener(longClickListener);
-        cuboTres.setOnLongClickListener(longClickListener);
+        recargar = (ImageButton) findViewById(R.id.btnRecargar);
+
+        recargar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cuboUno.setVisibility(View.VISIBLE);
+                cuboDos.setVisibility(View.VISIBLE);
+                cuboTres.setVisibility(View.VISIBLE);
+            }
+        });
+
+        cuboUno.setOnTouchListener(this);
+        cuboDos.setOnTouchListener(this);
+        cuboTres.setOnTouchListener(this);
 
         contenedorEliminar.setVisibility(View.GONE);
         cajaCubos.setOnDragListener(dragListener);
 
     }
 
-    View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
+    /*View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View view) {
             ClipData data = ClipData.newPlainText("", "");
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
             view.startDrag(data, shadowBuilder, view, 0);
-            //view.setVisibility(View.INVISIBLE);
             contenedorEliminar.setVisibility(View.VISIBLE);
             animarRealtiveLayout(true);
-            return true;
+            return false;
         }
-    };
+    };*/
+
+    /*Este es el encargado de escuchar lo que pasa sobre el bot de basura XD*/
 
     View.OnDragListener dragListener = new View.OnDragListener() {
         @Override
@@ -63,48 +91,58 @@ public class MainActivity extends AppCompatActivity {
             switch (dragEventAction){
 
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    //cajaCubos.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.cajaCubos));
-/*
-                    if (viewDrag.getId() == R.id.CuboUno){
-                        cajaCubos.setText("Arrastrasre el: "+cuboUno.getText() );
-                    }else if (viewDrag.getId() == R.id.CuboDos){
-                        cajaCubos.setText("Arrastrasre el: "+cuboDos.getText() );
-                    }else if (viewDrag.getId() == R.id.CuboTres){
-                        cajaCubos.setText("Arrastrasre el: "+cuboTres.getText() );
-                    }*/
-                    contenedorEliminar.setVisibility(View.VISIBLE);
 
+                   // ACCIÓN ARRASTRE ENTRADA
+
+                    contenedorEliminar.setVisibility(View.VISIBLE);
+                   // Toast.makeText(MainActivity.this, "ACTION_DRAG_ENTERED", Toast.LENGTH_SHORT).show();
                     break;
 
                 case DragEvent.ACTION_DRAG_EXITED:
+                    //Cuando sale del contenedor
 
+                    //contenedorEliminar.setVisibility(View.GONE);
                     break;
 
                 case DragEvent.ACTION_DROP:
 
                     if (viewDrag.getId() == R.id.CuboUno){
                         cajaCubos.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.cuboUno));
-                        cuboUno.setVisibility(View.INVISIBLE);
+                        cuboUno.setVisibility(View.GONE);
+                        EsconderBote();
                     }else if (viewDrag.getId() == R.id.CuboDos){
                         cajaCubos.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.cuboDos));
-                        cuboDos.setVisibility(View.INVISIBLE);
+                        cuboDos.setVisibility(View.GONE);
+                        EsconderBote();
                     }else if (viewDrag.getId() == R.id.CuboTres){
                         cajaCubos.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.cuboTres));
-                        cuboTres.setVisibility(View.INVISIBLE);
-
+                        cuboTres.setVisibility(View.GONE);
+                        EsconderBote();
                     }
                     break;
 
                 default:
              //       Toast.makeText(Ma/Activity.this, "No entro en ningun case", Toast.LENGTH_SHORT).show();
-                    contenedorEliminar.setVisibility(View.VISIBLE);
+                    EsconderBote();
+
                     break;
             }
 
-            return true;
+            return false;
         }
     };
 
+    private void EsconderBote(){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Ejecutar despues de 2s = 2000ms
+                contenedorEliminar.setVisibility(View.GONE);
+            }
+        }, 2000);
+
+    }
 
     private void animarRealtiveLayout(boolean mostrar) {
         AnimationSet set = new AnimationSet(true);
@@ -124,4 +162,79 @@ public class MainActivity extends AppCompatActivity {
         contenedorEliminar.startAnimation(animation);
     }
 
-}
+    /*
+    *Metodo encargadp de escuhca rlo que pasa con los cubos
+    */
+
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+        switch (event.getAction()) {
+
+            /*Caundo el boton es precionado comienza la grabacion*/
+            case MotionEvent.ACTION_DOWN:
+                tiempo = System.currentTimeMillis();//Contamos el tiempo qe el boton es precionado
+                    /*
+                    * Incrementamos el contador
+                    */
+
+                estaPresionado = true;
+                //new Contador().execute();
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+
+                if (((Long) System.currentTimeMillis() - tiempo) > 1200) {//Si es el timpo es mayo de 1.2 segundos entra
+
+                    ClipData data = ClipData.newPlainText("  ", "  ");
+                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                    view.startDrag(data, shadowBuilder, view, 0);
+
+                    contenedorEliminar.setVisibility(View.VISIBLE);
+                    animarRealtiveLayout(true);
+                }
+                break;
+
+            case MotionEvent.ACTION_UP:
+
+                if (((Long) System.currentTimeMillis() - tiempo) > 1200) {
+                    tiempo = null;
+                    estaPresionado = false;
+                } else {
+                    Toast.makeText(this, "Deja precionado el boton", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+
+        }
+
+        return true;
+    }
+
+
+    public class Contador extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            while(estaPresionado) {
+                AumentarContador();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return null;
+        }
+
+        private void AumentarContador(){
+            int contador = 0;
+            contador = contador+1;
+            txtContador.setText(String.valueOf(contador));
+        }
+        }
+    }
+
+
+
