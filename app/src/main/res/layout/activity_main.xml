@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="complejos.example.com.arrastarysoltar.MainActivity">
+
+    <TextView
+        android:id="@+id/CuboUno"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="15dp"
+        android:padding="8dp"
+        android:text="Cubo Uno"
+        android:background="#d20000"
+        android:textColor="@color/icons"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/CuboDos"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="15dp"
+        android:text="Cubo Dos"
+        android:padding="8dp"
+        android:background="#46d200"
+        android:textColor="@color/icons"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/CuboTres"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="15dp"
+        android:padding="8dp"
+        android:text="Cubo Dos"
+        android:background="#008cff"
+        android:textColor="@color/icons"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/CajaCubos"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_margin="20dp"
+        android:background="#d97c31"
+        android:gravity="center"
+        android:text="Caja de cubos XD"
+        android:textColor="@color/icons"
+        android:textSize="18sp" />
+
+</LinearLayout>
