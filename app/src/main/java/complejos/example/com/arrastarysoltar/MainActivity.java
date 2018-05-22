@@ -27,12 +27,12 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
-    private TextView cuboUno,cuboDos,cuboTres;
+    private TextView cuboUno, cuboDos, cuboTres;
     private ImageView cajaCubos;
     private LinearLayout contenedorEliminar;
     private ImageButton recargar;
     private Long tiempo;
-    private boolean estaPresionado=false;
+    private boolean estaPresionado = false;
     private TextView txtContador;
 
     @Override
@@ -88,14 +88,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             int dragEventAction = dragEvent.getAction();
             final View viewDrag = (View) dragEvent.getLocalState();
 
-            switch (dragEventAction){
+            switch (dragEventAction) {
 
                 case DragEvent.ACTION_DRAG_ENTERED:
 
-                   // ACCIÓN ARRASTRE ENTRADA
+                    // ACCIÓN ARRASTRE ENTRADA
 
                     contenedorEliminar.setVisibility(View.VISIBLE);
-                   // Toast.makeText(MainActivity.this, "ACTION_DRAG_ENTERED", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(MainActivity.this, "ACTION_DRAG_ENTERED", Toast.LENGTH_SHORT).show();
                     break;
 
                 case DragEvent.ACTION_DRAG_EXITED:
@@ -106,15 +106,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                 case DragEvent.ACTION_DROP:
 
-                    if (viewDrag.getId() == R.id.CuboUno){
+                    if (viewDrag.getId() == R.id.CuboUno) {
                         cajaCubos.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.cuboUno));
                         cuboUno.setVisibility(View.GONE);
                         EsconderBote();
-                    }else if (viewDrag.getId() == R.id.CuboDos){
+                    } else if (viewDrag.getId() == R.id.CuboDos) {
                         cajaCubos.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.cuboDos));
                         cuboDos.setVisibility(View.GONE);
                         EsconderBote();
-                    }else if (viewDrag.getId() == R.id.CuboTres){
+                    } else if (viewDrag.getId() == R.id.CuboTres) {
                         cajaCubos.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.cuboTres));
                         cuboTres.setVisibility(View.GONE);
                         EsconderBote();
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     break;
 
                 default:
-             //       Toast.makeText(Ma/Activity.this, "No entro en ningun case", Toast.LENGTH_SHORT).show();
+                    //       Toast.makeText(Ma/Activity.this, "No entro en ningun case", Toast.LENGTH_SHORT).show();
                     EsconderBote();
 
                     break;
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
     };
 
-    private void EsconderBote(){
+    private void EsconderBote() {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         @Override
         protected Void doInBackground(Void... params) {
 
-            while(estaPresionado) {
+            while (estaPresionado) {
                 AumentarContador();
                 try {
                     Thread.sleep(100);
@@ -228,13 +228,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             return null;
         }
 
-        private void AumentarContador(){
+        private void AumentarContador() {
             int contador = 0;
-            contador = contador+1;
+            contador = contador + 1;
             txtContador.setText(String.valueOf(contador));
         }
-        }
+
     }
+}
 
 
 
