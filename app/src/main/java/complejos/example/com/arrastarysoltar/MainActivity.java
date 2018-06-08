@@ -1,14 +1,10 @@
 package complejos.example.com.arrastarysoltar;
 
-import android.content.ClipData;
-import android.media.MediaRecorder;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,8 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -34,7 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private Long tiempo;
     private boolean estaPresionado = false;
     private TextView txtContador;
-
+    private float firstTouchX;
+    private float firstTouchY;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         txtContador = (TextView) findViewById(R.id.txtContador);
 
         recargar = (ImageButton) findViewById(R.id.btnRecargar);
+
+        firstTouchX= cuboUno.getX();
+        firstTouchY= cuboUno.getY();
 
         recargar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,36 +172,29 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             /*Caundo el boton es precionado comienza la grabacion*/
             case MotionEvent.ACTION_DOWN:
                 tiempo = System.currentTimeMillis();//Contamos el tiempo qe el boton es precionado
-                    /*
-                    * Incrementamos el contador
-                    */
 
-                estaPresionado = true;
-                //new Contador().execute();
                 break;
 
             case MotionEvent.ACTION_MOVE:
 
-                if (((Long) System.currentTimeMillis() - tiempo) > 1200) {//Si es el timpo es mayo de 1.2 segundos entra
+                cuboUno.setX( event.getX() + (cajaCubos.getWidth()-cuboUno.getWidth())*4);
 
-                    ClipData data = ClipData.newPlainText("  ", "  ");
-                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                    view.startDrag(data, shadowBuilder, view, 0);
 
-                    contenedorEliminar.setVisibility(View.VISIBLE);
-                    animarRealtiveLayout(true);
-                }
                 break;
 
             case MotionEvent.ACTION_UP:
 
+                cuboUno.setX(firstTouchX);
                 if (((Long) System.currentTimeMillis() - tiempo) > 1200) {
                     tiempo = null;
-                    estaPresionado = false;
                 } else {
                     Toast.makeText(this, "Deja precionado el boton", Toast.LENGTH_SHORT).show();
                 }
 
+                break;
+
+            default:
+                //cuboUno.setX(firstTouchX);
                 break;
 
         }
@@ -235,6 +227,40 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
 
     }
+
+    /*
+    case MotionEvent.ACTION_MOVE:
+
+    if (firstTouchX > event.getX()) {
+        //Hacia la izquierda
+    } else {
+        //Hacia la derecha
+    }
+    if (firstTouchY > event.getY()) {
+
+    } else {
+        //Hacia abajo
+        cuboUno.setX(event.getX() - cajaCubos.getWidth() );
+    }
+
+                break;
+
+            case MotionEvent.ACTION_UP:
+
+            if (((Long) System.currentTimeMillis() - tiempo) > 1200) {
+
+        cuboUno.setX(firstTouchX);
+        tiempo = null;
+        estaPresionado = false;
+    } else {
+        Toast.makeText(this, "Deja precionado el boton", Toast.LENGTH_SHORT).show();
+    }cuboUno.setX(event.getX() - cajaCubos.getWidth() );
+
+                break;
+
+}
+
+        return true;*/
 }
 
 
